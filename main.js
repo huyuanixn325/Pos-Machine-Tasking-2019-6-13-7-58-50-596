@@ -28,6 +28,12 @@ function countProducts (codes) {
   return countCodes;
 }
 
+function generateReceipts(codes){
+    let receiptItems = generateReceiptItems(codes);
+    let prices = countTotalPrice(receiptItems);
+    let receiptText = assemble(receiptItems,prices);
+    return receiptText;
+}
 
 function fetchProduct(code){
 for (let index = 0; index < databases.length; index++) {
@@ -88,5 +94,6 @@ module.exports = {
     fetchProduct,
     generateReceiptItems,
     countTotalPrice,
-    assemble
+    assemble,
+    generateReceipts
 };
