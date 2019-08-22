@@ -29,19 +29,64 @@ function countProducts (codes) {
 }
 
 
-function fetchProduct(code,db){
-for (let index = 0; index < db.length; index++) {
-   if(db[index].id===code){
-       console.log(db[index]);
+function fetchProduct(code){
+for (let index = 0; index < databases.length; index++) {
+   if(databases[index].id===code){
+       //console.log(db[index]);
        return {
-           name:db[index].name,
-           price:db[index].price
+           name:databases[index].name,
+           price:databases[index].price
        }
    } 
 }
 }
 
+function generateReceiptItems(codes){
+
+    let receiptItems = [];
+    let countCodes = countProducts(codes);
+   // console.log(countCodes);
+   //遍历1
+    for (let index = 0; index < countCodes.length; index++) {
+        let receiptItem = fetchProduct(countCodes[index].code);
+        //console.log(receiptItem);
+        receiptItems.push({name:receiptItem.name,price:receiptItem.price,count:countCodes[index].count});
+    }
+    //遍历2
+    // countCodes.forEach(function(item){
+    //     let receiptItem = fetchProduct(item.code);
+    //     receiptItems.push({name:receiptItem.name,price:receiptItem.price,count:item.count});
+    // })
+    return receiptItems;
+}
+
+function countTotalPrice(countTotalPriceInput){
+    let prices = 0;
+    for (let index = 0; index < countTotalPriceInput.length; index++) {
+        prices = prices + countTotalPriceInput[index].price*countTotalPriceInput[index].count;
+        
+    }
+    return prices;
+}
+
+
+function assemble(receiptItems,totalPrice){
+
+    let receiptText = "Receipts\n";
+    receiptText+="-----------------------------------\n";
+    for (let index = 0; index < receiptItems.length; index++) {
+        receiptText+=receiptItems[index].name+"\t"+receiptItems[index].price+"\t"+receiptItems[index].count+"\n";
+        
+    }
+    receiptText+="-----------------------------------\n";
+    receiptText+="Price: "+totalPrice;
+    return receiptText;
+}
+
 module.exports = {
     countProducts ,
-    fetchProduct
+    fetchProduct,
+    generateReceiptItems,
+    countTotalPrice,
+    assemble
 };
