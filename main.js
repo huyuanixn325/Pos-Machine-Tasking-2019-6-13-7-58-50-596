@@ -28,6 +28,20 @@ function countProducts (codes) {
   return countCodes;
 }
 
+
+function fetchProduct(code,db){
+for (let index = 0; index < db.length; index++) {
+   if(db[index].id===code){
+       console.log(db[index]);
+       return {
+           name:db[index].name,
+           price:db[index].price
+       }
+   } 
+}
+}
+
 module.exports = {
-    countProducts 
+    countProducts ,
+    fetchProduct
 };
